@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PwaService {
   promptEvent: any;
+  duration: number = 3000;
 
-  constructor(private SwUpdate: SwUpdate) {
-    SwUpdate.available.subscribe(event => {
-      // if (askUserToUpdate()) {
-      alert("Installing the latest updates...");
-      window.location.reload();
-      // }
+  constructor(private swUpdate: SwUpdate, private matSnackBar: MatSnackBar) {
+    swUpdate.available.subscribe(event => {
+      matSnackBar.open("Installing the latest updates. Please wait...", "Okay", { duration: this.duration });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, this.duration);
     });
 
     window.addEventListener('beforeinstallprompt', event => {
       this.promptEvent = event;
-      alert("Before Install Prompt Fired");
     });
   }
 
   installPwa() {
-    alert("Installing...");
     this.promptEvent.prompt();
     this.promptEvent = null;
   }

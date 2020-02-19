@@ -7,7 +7,5 @@ import { PwaService } from './pwa.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public pwaService: PwaService) {
-    alert("App Initialized");
-  }
+  constructor(public pwaService: PwaService) { }
 }
